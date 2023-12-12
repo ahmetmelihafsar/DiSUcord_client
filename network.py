@@ -6,7 +6,7 @@ import re
 
 
 class Network:
-    def __init__(self, host, port, receive_callback=None):
+    def __init__(self, host: str, port: int, receive_callback=None):
         self.host = host
         self.port = port
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -34,7 +34,7 @@ class Network:
                 self.client_socket.close()
                 break
 
-    def _send_message(self, message):
+    def _send_message(self, message: str):
         try:
             self.client_socket.send(message.encode("utf-8"))
         except Exception as e:

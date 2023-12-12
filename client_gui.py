@@ -9,7 +9,7 @@ import re
 
 
 class ClientGUI:
-    def __init__(self, master):
+    def __init__(self, master: tk.Tk):
         self.master = master
         master.title("DiSUcord Client")
 
