@@ -105,18 +105,15 @@ class ClientGUI:
     def send_message(self):
         message = self.message_entry.get()
         channel = self.selected_channel.get()
-
-        # now we specify the command and the arguments
-        enc_message = self.network.format_message("MESSAGE", channel, message)
-
-        self.network._send_message(enc_message)
+        
+        self.network.send_message(channel, message)
         self.message_entry.delete(0, tk.END)
 
     def subscribe(self, channel):
-        self.network._send_message(f"SUBSCRIBE\\x{channel}\\e")
+        self.network.subscribe(channel)
 
     def unsubscribe(self, channel):
-        self.network._send_message(f"UNSUBSCRIBE\\x{channel}\\e")
+        self.network.unsubscribe(channel)
 
     def receive_message(self, message):
         self.messages_area.config(state="normal")

@@ -40,6 +40,19 @@ class Network:
         except Exception as e:
             print(f"Sending Error: {e}")
 
+    def subscribe(self, channel: str):
+        message = self.format_message("SUBSCRIBE", channel)
+        self._send_message(message)
+
+    def unsubscribe(self, channel: str):
+        message = self.format_message("UNSUBSCRIBE", channel)
+        self._send_message(message)
+
+    # send message
+    def send_message(self, channel: str, message: str):
+        message = self.format_message("MESSAGE", channel, message)
+        self._send_message(message)
+
     def disconnect(self):
         self.client_socket.close()
 
