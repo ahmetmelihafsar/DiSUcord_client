@@ -27,6 +27,11 @@ class Network:
         while True:
             try:
                 message = self.client_socket.recv(1024).decode("utf-8")
+                if message.find("\\q") >= 0:
+                    self.client_socket.close()
+                    message = message.split("\\q")[0]
+                    self.receive_callback(message)
+                    break
                 if self.receive_callback:
                     self.receive_callback(message)
             except Exception as e:
