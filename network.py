@@ -6,11 +6,14 @@ import re
 
 
 class Network:
-    def __init__(self, host: str, port: int, receive_callback=None):
+    def __init__(
+        self, host: str, port: int, receive_callback=None, error_callback=None
+    ):
         self.host = host
         self.port = port
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.receive_callback = receive_callback
+        self.disconnect_callback = error_callback
 
     def connect(self, username: str):
         try:
@@ -30,17 +33,23 @@ class Network:
                 if message.find("\\q") >= 0:
                     self.client_socket.close()
                     message = message.split("\\q")[0]
-                    self.receive_callback(message)
+                    if self.receive_callback:
+                        self.receive_callback(message)
+                    if self.disconnect_callback:
+                        self.disconnect_callback()
                     break
                 if self.receive_callback:
                     self.receive_callback(message)
             except Exception as e:
                 print(f"Receiving Error: {e}")
+                if self.disconnect_callback:
+                    self.disconnect_callback()
                 self.client_socket.close()
                 break
 
     def _send_message(self, message: str):
         try:
+            print(f"Tring to send: {message}")
             self.client_socket.send(message.encode("utf-8"))
         except Exception as e:
             print(f"Sending Error: {e}")
@@ -59,6 +68,11 @@ class Network:
         self._send_message(message)
 
     def disconnect(self):
+        # send "QUIT\\x\\q\\e" to the server
+        self._send_message("QUIT\\x\\q\\e")
+        if self.disconnect_callback:
+            print(f"Calling disconnect callback")
+            self.disconnect_callback()
         self.client_socket.close()
 
     @staticmethod
