@@ -129,6 +129,12 @@ class ClientGUI:
         self.disconnect_button["state"] = tk.DISABLED
         self.connect_button["state"] = tk.NORMAL
 
+        # indicate connection lost at the logs
+        self.messages_area.config(state="normal")
+        self.messages_area.insert(tk.END, "Disconnected from server\n")
+        self.messages_area.see(tk.END)  # Auto-scroll to the bottom
+        self.messages_area.config(state="disabled")
+
     def send_message(self):
         message = self.message_entry.get()
         channel = self.selected_channel.get()
