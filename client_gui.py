@@ -90,6 +90,9 @@ class ClientGUI:
         self.unsubscribe_sps_button.grid(row=1, column=2, columnspan=2, sticky=tk.EW)
 
         # Channel Selector
+        tk.Label(subscription_frame, text="Message Channel:").grid(
+            row=2, column=0, sticky=tk.W
+        )
         self.channels = ["IF 100", "SPS 101"]
         self.selected_channel = tk.StringVar()
         self.channel_selector = ttk.Combobox(
@@ -97,7 +100,7 @@ class ClientGUI:
         )
         self.channel_selector["values"] = self.channels
         self.channel_selector.current(0)
-        self.channel_selector.grid(row=2, column=0, columnspan=4, sticky=tk.EW)
+        self.channel_selector.grid(row=3, column=0, columnspan=4, sticky=tk.EW)
 
         self.network = None
 
