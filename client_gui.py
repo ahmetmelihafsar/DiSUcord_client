@@ -144,4 +144,5 @@ class ClientGUI:
     def receive_message(self, message):
         self.messages_area.config(state="normal")
         self.messages_area.insert(tk.END, message + "\n")
+        self.messages_area.see(tk.END)  # Auto-scroll to the bottom
         self.messages_area.config(state="disabled")
