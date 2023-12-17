@@ -7,13 +7,13 @@ import re
 
 class Network:
     def __init__(
-        self, host: str, port: int, receive_callback=None, error_callback=None
+        self, host: str, port: int, receive_callback=None, disconnect_callback=None
     ):
         self.host = host
         self.port = port
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.receive_callback = receive_callback
-        self.disconnect_callback = error_callback
+        self.disconnect_callback = disconnect_callback
 
     def connect(self, username: str):
         try:
@@ -68,8 +68,8 @@ class Network:
         self._send_message(message)
 
     def disconnect(self):
-        # send "QUIT\\x\\q\\e" to the server
-        self._send_message("QUIT\\x\\q\\e")
+        # send "\\q\\e" to the server
+        self._send_message("\\q\\e")
         if self.disconnect_callback:
             print(f"Calling disconnect callback")
             self.disconnect_callback()
