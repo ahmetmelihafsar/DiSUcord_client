@@ -42,8 +42,8 @@ class Network:
                     self.receive_callback(message)
             except Exception as e:
                 print(f"Receiving Error: {e}")
-                # if self.disconnect_callback:
-                #     self.disconnect_callback()
+                if self.disconnect_callback:
+                    self.disconnect_callback()
                 self.client_socket.close()
                 break
 
@@ -70,7 +70,6 @@ class Network:
     def disconnect(self):
         # send "\\q\\e" to the server
         self._send_message("\\q\\e")
-        
         # if self.disconnect_callback:
         #     print(f"Calling disconnect callback")
         #     self.disconnect_callback()

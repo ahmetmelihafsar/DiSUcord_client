@@ -125,7 +125,6 @@ class ClientGUI:
             self.disconnect_button["state"] = tk.DISABLED
 
     def disconnect(self):
-        self._disconnect_ui()
         self.network.disconnect()
 
     def _disconnect_ui(self):
